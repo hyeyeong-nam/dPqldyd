@@ -57,6 +57,7 @@ class kiosk(QWidget):
         self.resultEdit = QTextEdit()
         self.totalPriceEdit = QTextEdit()
 
+        mike = QPushButton("음성인식 하기")
         pay = QPushButton("결제하기")
         all_return = QPushButton("모두 취소하기")
 
@@ -66,6 +67,7 @@ class kiosk(QWidget):
         vbox.addWidget(self.resultEdit)
         vbox.addWidget(total_price)
         vbox.addWidget(self.totalPriceEdit)
+        vbox.addWidget(mike)
         vbox.addWidget(all_return)
         vbox.addWidget(pay)
 
@@ -81,6 +83,7 @@ class kiosk(QWidget):
         side2.clicked.connect(self.side_order)
         side3.clicked.connect(self.side_order)
         side4.clicked.connect(self.side_order)
+        mike.clicked.connect(self.Mike_order)
         all_return.clicked.connect(self.Del)
         pay.clicked.connect(self.All_price)
 
@@ -97,6 +100,9 @@ class kiosk(QWidget):
 
     def side_order(self):
         print("예시")
+
+    def Mike_order(self):
+        print("음성인식")
 
     def Del(self):
         print("모든 걸 삭제")
