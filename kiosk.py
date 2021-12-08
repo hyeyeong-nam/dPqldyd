@@ -1,11 +1,38 @@
 import sys
 from PyQt5.QtWidgets import *
+import speech_recognition as sr
+from STT_test import kakao_stt, KAKAO_APP_KEY
 
+def get_speech():
+        
+    # 마이크에서 음성을 추출하는 객체
+        recognizer = sr.Recognizer()
+
+    # 마이크 설정
+        microphone = sr.Microphone(sample_rate=16000)
+
+    # 마이크 소음 수치 반영
+        with microphone as source:
+            recognizer.adjust_for_ambient_noise(source)
+            
+
+    # 음성 수집
+        with microphone as source:
+            result = recognizer.listen(source)
+            audio = result.get_raw_data()
+
+        return audio
 class kiosk(QWidget):
 
     def __init__(self):
         super().__init__()
         self.initUI()
+        self.coffee_price = [2000, 2700, 2700, 3500]
+        self.beverage_price = [3000, 3500, 2700, 4000]
+        self.total_price = 0
+        self.order_list = []
+        self.bev_list = []
+        
 
     def initUI(self):
         self.setWindowTitle("Jarvis Cafe")
@@ -15,7 +42,7 @@ class kiosk(QWidget):
         tab1 = QWidget()
         tab2 = QWidget()
         tab3 = QWidget()
-
+        
         tabs = QTabWidget()
         tabs.addTab(tab1, "Coffee")
         coffee1 = QPushButton("아메리카노")
@@ -55,7 +82,9 @@ class kiosk(QWidget):
         result = QLabel("주문 목록:")
         total_price = QLabel("총 가격:")
         self.resultEdit = QTextEdit()
+        self.resultEdit.setReadOnly(True)
         self.totalPriceEdit = QTextEdit()
+        self.totalPriceEdit.setReadOnly(True)
 
         mike = QPushButton("음성인식 하기")
         pay = QPushButton("결제하기")
@@ -71,10 +100,10 @@ class kiosk(QWidget):
         vbox.addWidget(all_return)
         vbox.addWidget(pay)
 
-        coffee1.clicked.connect(self.coffee_order)
-        coffee2.clicked.connect(self.coffee_order)
-        coffee3.clicked.connect(self.coffee_order)
-        coffee4.clicked.connect(self.coffee_order)
+        coffee1.clicked.connect(self.coffee_order1)
+        coffee2.clicked.connect(self.coffee_order2)
+        coffee3.clicked.connect(self.coffee_order3)
+        coffee4.clicked.connect(self.coffee_order4)
         beverage1.clicked.connect(self.beverage_order)
         beverage2.clicked.connect(self.beverage_order)
         beverage3.clicked.connect(self.beverage_order)
@@ -92,8 +121,68 @@ class kiosk(QWidget):
         self.setGeometry(300, 300, 300, 200)
         self.show()
 
-    def coffee_order(self):
-        print("예시")
+    def coffee_order1(self):
+        menu = [item['Beverage'] for item in self.order_list]
+        if self.order_list == []:
+            self.order_list.append({"Beverage":"아메리카노", "Amount":1})
+        elif "아메리카노" not in menu:
+            self.order_list.append({"Beverage":"아메리카노", "Amount":1})
+        else:    
+            for p in self.order_list:
+                if p["Beverage"] == "아메리카노":
+                    if p['Amount'] >= 1:
+                        order1_amount = p["Amount"] + 1
+                        p['Amount'] = (order1_amount)
+                        print(self.order_list)
+                        
+        self.showListAll()
+        
+            
+    def coffee_order2(self):
+        menu = [item['Beverage'] for item in self.order_list]
+        if self.order_list == []:
+            self.order_list.append({"Beverage":"카페 라떼", "Amount":1})
+        elif "카페 라떼" not in menu:
+            self.order_list.append({"Beverage":"카페 라떼", "Amount":1})
+        else:    
+            for p in self.order_list:
+                if p["Beverage"] == "카페 라떼":
+                    if p['Amount'] >= 1:
+                        p['Amount'] = p['Amount'] + 1
+                        print(self.order_list)
+                        
+                
+        self.showListAll()
+        
+    def coffee_order3(self):
+        menu = [item['Beverage'] for item in self.order_list]
+        if self.order_list == []:
+            self.order_list.append({"Beverage":"카푸치노", "Amount":1})
+        elif "카푸치노" not in menu:
+            self.order_list.append({"Beverage":"카푸치노", "Amount":1})
+        else:    
+            for p in self.order_list:
+                if p["Beverage"] == "카푸치노":
+                    if p['Amount'] >= 1:
+                        order1_amount = p["Amount"] + 1
+                        p['Amount'] = (order1_amount)
+                        print(self.order_list)
+        self.showListAll()
+        
+    def coffee_order4(self):
+        menu = [item['Beverage'] for item in self.order_list]
+        if self.order_list == []:
+            self.order_list.append({"Beverage":"바닐라 라떼", "Amount":1})
+        elif "바닐라 라떼" not in menu:
+            self.order_list.append({"Beverage":"바닐라 라떼", "Amount":1})
+        else:    
+            for p in self.order_list:
+                if p["Beverage"] == "바닐라 라떼":
+                    if p['Amount'] >= 1:
+                        order1_amount = p["Amount"] + 1
+                        p['Amount'] = (order1_amount)
+                        print(self.order_list)
+        self.showListAll()
 
     def beverage_order(self):
         print("예시")
@@ -102,13 +191,29 @@ class kiosk(QWidget):
         print("예시")
 
     def Mike_order(self):
-        print("음성인식")
+        audio = get_speech()
+        text = kakao_stt(KAKAO_APP_KEY, "stream", audio)
+        print(text)
 
     def Del(self):
         print("모든 걸 삭제")
 
     def All_price(self):
         print("결제하기 누르면 종료...?")
+
+    def showListAll(self):
+        te=[]
+        
+        for p in self.order_list:
+            
+            for attr in p:
+                te.append(str(attr) + ":")
+                te.append('\t')
+                te.append(str(p[attr]))
+                te.append("\t")
+            
+        self.resultEdit.setText(''.join(te))
+        self.totalPriceEdit.setText(str(self.total_price))
 
 
 if __name__ == '__main__':
