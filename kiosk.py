@@ -1,5 +1,5 @@
 import sys
-from PyQt5.QtWidgets import *
+from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QVBoxLayout, QTabWidget, QLabel, QTextEdit
 import speech_recognition as sr
 from STT_test import kakao_stt, KAKAO_APP_KEY
 
