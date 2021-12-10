@@ -1,5 +1,6 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QVBoxLayout, QTabWidget, QLabel, QTextEdit
+from PyQt5.QtGui import QCloseEvent
+from PyQt5.QtWidgets import QApplication, QMessageBox, QWidget, QPushButton, QVBoxLayout, QTabWidget, QLabel, QTextEdit
 import speech_recognition as sr
 from STT_test import kakao_stt, KAKAO_APP_KEY
 
@@ -29,6 +30,7 @@ class kiosk(QWidget):
         self.initUI()
         self.coffee_price = [2000, 2700, 2700, 3500]
         self.Menu_price = [3000, 3500, 2700, 4000]
+        self.Side_price = [3000, 3200, 3400, 4200]
         self.total_price = 0
         self.order_list = []
         self.bev_list = []
@@ -45,10 +47,10 @@ class kiosk(QWidget):
         
         tabs = QTabWidget()
         tabs.addTab(tab1, "Coffee")
-        coffee1 = QPushButton("아메리카노")
-        coffee2 = QPushButton("카페라떼")
-        coffee3 = QPushButton("카푸치노")
-        coffee4 = QPushButton("바닐라 라떼")
+        coffee1 = QPushButton("아메리카노 : 2000원", )
+        coffee2 = QPushButton("카페라떼 : 2700원")
+        coffee3 = QPushButton("카푸치노: 2700원")
+        coffee4 = QPushButton("바닐라 라떼 : 3500원")
         tab1.layout = QVBoxLayout()
         tab1.layout.addWidget(coffee1)
         tab1.layout.addWidget(coffee2)
@@ -57,10 +59,10 @@ class kiosk(QWidget):
         tab1.setLayout(tab1.layout)
 
         tabs.addTab(tab2, "Menu")
-        Menu1 = QPushButton("레모네이드")
-        Menu2 = QPushButton("초코라떼")
-        Menu3 = QPushButton("아이스티")
-        Menu4 = QPushButton("딸기 스무디")
+        Menu1 = QPushButton("레모네이드 : 3000원")
+        Menu2 = QPushButton("초코라떼 : 3500원")
+        Menu3 = QPushButton("아이스티 : 2700원")
+        Menu4 = QPushButton("딸기 스무디 : 4000원")
         tab2.layout = QVBoxLayout()
         tab2.layout.addWidget(Menu1)
         tab2.layout.addWidget(Menu2)
@@ -69,10 +71,10 @@ class kiosk(QWidget):
         tab2.setLayout(tab2.layout)
 
         tabs.addTab(tab3, "Side")
-        side1 = QPushButton("초코 케이크")
-        side2 = QPushButton("딸기 케이크")
-        side3 = QPushButton("티라미수")
-        side4 = QPushButton("샌드위치")
+        side1 = QPushButton("초코 케이크 : 3000원")
+        side2 = QPushButton("딸기 케이크 : 3200원")
+        side3 = QPushButton("티라미수 : 3400원")
+        side4 = QPushButton("샌드위치 : 4200원")
         tab3.layout = QVBoxLayout()
         tab3.layout.addWidget(side1)
         tab3.layout.addWidget(side2)
@@ -120,13 +122,14 @@ class kiosk(QWidget):
         self.setLayout(layout)
         self.setGeometry(300, 300, 300, 200)
         self.show()
-
+        
     def coffee_order1(self):
         menu = [item['Menu'] for item in self.order_list]
-        if self.order_list == []:
+        
+            
+        if "아메리카노" not in menu:
             self.order_list.append({"Menu":"아메리카노", "Amount":1})
-        elif "아메리카노" not in menu:
-            self.order_list.append({"Menu":"아메리카노", "Amount":1})
+            self.total_price += self.coffee_price[0]
         else:    
             for p in self.order_list:
                 if p["Menu"] == "아메리카노":
@@ -134,32 +137,34 @@ class kiosk(QWidget):
                         order1_amount = p["Amount"] + 1
                         p['Amount'] = (order1_amount)
                         print(self.order_list)
+                        self.total_price += self.coffee_price[0]
                         
         self.showListAll()
         
             
     def coffee_order2(self):
         menu = [item['Menu'] for item in self.order_list]
-        if self.order_list == []:
+        
+        if "카페 라떼" not in menu:
             self.order_list.append({"Menu":"카페 라떼", "Amount":1})
-        elif "카페 라떼" not in menu:
-            self.order_list.append({"Menu":"카페 라떼", "Amount":1})
+            self.total_price += self.coffee_price[1]
         else:    
             for p in self.order_list:
                 if p["Menu"] == "카페 라떼":
                     if p['Amount'] >= 1:
                         p['Amount'] = p['Amount'] + 1
                         print(self.order_list)
+                        self.total_price += self.coffee_price[1]
                         
                 
         self.showListAll()
         
     def coffee_order3(self):
         menu = [item['Menu'] for item in self.order_list]
-        if self.order_list == []:
+        
+        if "카푸치노" not in menu:
             self.order_list.append({"Menu":"카푸치노", "Amount":1})
-        elif "카푸치노" not in menu:
-            self.order_list.append({"Menu":"카푸치노", "Amount":1})
+            self.total_price += self.coffee_price[2]
         else:    
             for p in self.order_list:
                 if p["Menu"] == "카푸치노":
@@ -167,14 +172,15 @@ class kiosk(QWidget):
                         order1_amount = p["Amount"] + 1
                         p['Amount'] = (order1_amount)
                         print(self.order_list)
+                        self.total_price += self.coffee_price[2]
         self.showListAll()
         
     def coffee_order4(self):
         menu = [item['Menu'] for item in self.order_list]
-        if self.order_list == []:
+        
+        if "바닐라 라떼" not in menu:
             self.order_list.append({"Menu":"바닐라 라떼", "Amount":1})
-        elif "바닐라 라떼" not in menu:
-            self.order_list.append({"Menu":"바닐라 라떼", "Amount":1})
+            self.total_price += self.coffee_price[3]
         else:    
             for p in self.order_list:
                 if p["Menu"] == "바닐라 라떼":
@@ -182,14 +188,15 @@ class kiosk(QWidget):
                         order1_amount = p["Amount"] + 1
                         p['Amount'] = (order1_amount)
                         print(self.order_list)
+                        self.total_price += self.coffee_price[3]
         self.showListAll()
 
     def Menu_order1(self):
         menu = [item['Menu'] for item in self.order_list]
-        if self.order_list == []:
+        
+        if "레모네이드" not in menu:
             self.order_list.append({"Menu":"레모네이드", "Amount":1})
-        elif "레모네이드" not in menu:
-            self.order_list.append({"Menu":"레모네이드", "Amount":1})
+            self.total_price += self.Menu_price[0]
         else:    
             for p in self.order_list:
                 if p["Menu"] == "레모네이드":
@@ -197,13 +204,14 @@ class kiosk(QWidget):
                         order1_amount = p["Amount"] + 1
                         p['Amount'] = (order1_amount)
                         print(self.order_list)
+                        self.total_price += self.Menu_price[0]
         self.showListAll()
     def Menu_order2(self):
         menu = [item['Menu'] for item in self.order_list]
-        if self.order_list == []:
+        
+        if "초코 라떼" not in menu:
             self.order_list.append({"Menu":"초코 라떼", "Amount":1})
-        elif "초코 라떼" not in menu:
-            self.order_list.append({"Menu":"초코 라떼", "Amount":1})
+            self.total_price += self.Menu_price[1]
         else:    
             for p in self.order_list:
                 if p["Menu"] == "초코 라떼":
@@ -211,13 +219,14 @@ class kiosk(QWidget):
                         order1_amount = p["Amount"] + 1
                         p['Amount'] = (order1_amount)
                         print(self.order_list)
+                        self.total_price += self.Menu_price[1]
         self.showListAll()
     def Menu_order3(self):
         menu = [item['Menu'] for item in self.order_list]
-        if self.order_list == []:
+        
+        if "아이스티" not in menu:
             self.order_list.append({"Menu":"아이스티", "Amount":1})
-        elif "아이스티" not in menu:
-            self.order_list.append({"Menu":"아이스티", "Amount":1})
+            self.total_price += self.Menu_price[2]
         else:    
             for p in self.order_list:
                 if p["Menu"] == "아이스티":
@@ -225,13 +234,14 @@ class kiosk(QWidget):
                         order1_amount = p["Amount"] + 1
                         p['Amount'] = (order1_amount)
                         print(self.order_list)
+                        self.total_price += self.Menu_price[2]
         self.showListAll()
     def Menu_order4(self):
         menu = [item['Menu'] for item in self.order_list]
-        if self.order_list == []:
+        
+        if "딸기 스무디" not in menu:
             self.order_list.append({"Menu":"딸기 스무디", "Amount":1})
-        elif "딸기 스무디" not in menu:
-            self.order_list.append({"Menu":"딸기 스무디", "Amount":1})
+            self.total_price += self.Menu_price[3]
         else:    
             for p in self.order_list:
                 if p["Menu"] == "딸기 스무디":
@@ -239,14 +249,15 @@ class kiosk(QWidget):
                         order1_amount = p["Amount"] + 1
                         p['Amount'] = (order1_amount)
                         print(self.order_list)
+                        self.total_price += self.Menu_price[3]
         self.showListAll()
 
     def side_order1(self):
         menu = [item['Menu'] for item in self.order_list]
-        if self.order_list == []:
+        
+        if "초코 케이크" not in menu:
             self.order_list.append({"Menu":"초코 케이크", "Amount":1})
-        elif "초코 케이크" not in menu:
-            self.order_list.append({"Menu":"초코 케이크", "Amount":1})
+            self.total_price += self.Side_price[0]
         else:    
             for p in self.order_list:
                 if p["Menu"] == "초코 케이크":
@@ -254,13 +265,16 @@ class kiosk(QWidget):
                         order1_amount = p["Amount"] + 1
                         p['Amount'] = (order1_amount)
                         print(self.order_list)
+                        self.total_price += self.Side_price[0]
+                        
         self.showListAll()
     def side_order2(self):
         menu = [item['Menu'] for item in self.order_list]
-        if self.order_list == []:
+        
+        if "딸기 케이크" not in menu:
             self.order_list.append({"Menu":"딸기 케이크", "Amount":1})
-        elif "딸기 케이크" not in menu:
-            self.order_list.append({"Menu":"딸기 케이크", "Amount":1})
+            self.total_price += self.Side_price[1]
+            
         else:    
             for p in self.order_list:
                 if p["Menu"] == "딸기 케이크":
@@ -268,13 +282,16 @@ class kiosk(QWidget):
                         order1_amount = p["Amount"] + 1
                         p['Amount'] = (order1_amount)
                         print(self.order_list)
+                        self.total_price += self.Side_price[1]
+                        
         self.showListAll()
     def side_order3(self):
         menu = [item['Menu'] for item in self.order_list]
-        if self.order_list == []:
+        
+        if "티라미수" not in menu:
             self.order_list.append({"Menu":"티라미수", "Amount":1})
-        elif "티라미수" not in menu:
-            self.order_list.append({"Menu":"티라미수", "Amount":1})
+            self.total_price += self.Side_price[2]
+            
         else:    
             for p in self.order_list:
                 if p["Menu"] == "티라미수":
@@ -282,13 +299,16 @@ class kiosk(QWidget):
                         order1_amount = p["Amount"] + 1
                         p['Amount'] = (order1_amount)
                         print(self.order_list)
+                        self.total_price += self.Side_price[2]
+                        
         self.showListAll()
     def side_order4(self):
         menu = [item['Menu'] for item in self.order_list]
-        if self.order_list == []:
+       
+        if "샌드위치" not in menu:
             self.order_list.append({"Menu":"샌드위치", "Amount":1})
-        elif "샌드위치" not in menu:
-            self.order_list.append({"Menu":"샌드위치", "Amount":1})
+            self.total_price += self.Side_price[3]
+            
         else:    
             for p in self.order_list:
                 if p["Menu"] == "샌드위치":
@@ -296,6 +316,8 @@ class kiosk(QWidget):
                         order1_amount = p["Amount"] + 1
                         p['Amount'] = (order1_amount)
                         print(self.order_list)
+                        self.total_price += self.Side_price[3]
+                        
         self.showListAll()
 
     def Mike_order(self):
@@ -310,13 +332,36 @@ class kiosk(QWidget):
             self.coffee_order3()
         if "바닐라 라떼" in text:
             self.coffee_order4()
+        if "레모네이드" in text:
+            self.Menu_order1()
+        if "초코 라떼" in text:
+            self.Menu_order2()
+        if "아이스티" in text:
+            self.Menu_order3()
+        if "딸기 스무디" in text:
+            self.Menu_order4()
+        if "초코 케이크" in text:
+            self.side_order1()
+        if "딸기 케이크" in text:
+            self.side_order2()
+        if "티라미수" in text:
+            self.side_order3()
+        if "샌드위치" in text:
+            self.side_order4()
             
 
     def Del(self):
-        print("모든 걸 삭제")
+        self.order_list.clear()
+        self.total_price = 0
+        self.showListAll()
 
     def All_price(self):
-        print("결제하기 누르면 종료...?")
+        exit_window = QMessageBox.question(self, "Result", str(self.total_price)+"원 결제되셨습니다.", 
+                             QMessageBox.Yes)
+        if exit_window == QMessageBox.Yes:
+            QCloseEvent.accept()
+        else:
+            QCloseEvent.ignore()
 
     def showListAll(self):
         te=[]
@@ -330,7 +375,8 @@ class kiosk(QWidget):
                 te.append("\t")
             
         self.resultEdit.setText(''.join(te))
-        self.totalPriceEdit.setText(str(self.total_price))
+        self.totalPriceEdit.setText(str(self.total_price)+"원")
+        
 
 
 if __name__ == '__main__':
