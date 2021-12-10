@@ -120,7 +120,7 @@ class kiosk(QWidget):
 
         self.setLayout(vbox)
         self.setLayout(layout)
-        self.setGeometry(300, 300, 300, 200)
+        self.setGeometry(400, 200, 500, 400)
         self.show()
         
     def coffee_order1(self):
@@ -371,7 +371,7 @@ class kiosk(QWidget):
             for attr in p:
                 te.append(str(attr) + ":")
                 te.append('\t')
-                te.append(str(p[attr]))
+                te.append("%-16s" % str(p[attr]))
                 te.append("\t")
             
         self.resultEdit.setText(''.join(te))
