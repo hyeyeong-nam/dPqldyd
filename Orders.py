@@ -4,9 +4,9 @@ class Order:
         self.coffee_price = [2000, 2700, 2700, 3500]
         self.Menu_price = [3000, 3500, 2700, 4000]
         self.Side_price = [3000, 3200, 3400, 4200]
-        self.coffee_menu = ["아메리카노", "카페 라떼", "카푸치노", "바닐라 라떼"]
-        self.Menu_menu = ["레모네이드", "초코 라떼", "아이스티", "딸기 스무디"]
-        self.side_menu = ["초코 케이크", "딸기 케이크", "티라미수", "샌드위치"]
+        self.coffee_menu = ["아메리카노", "카페라떼", "카푸치노", "바닐라라떼"]
+        self.Menu_menu = ["레모네이드", "초코라떼", "아이스티", "딸기스무디"]
+        self.side_menu = ["초코케이크", "딸기케이크", "티라미수", "샌드위치"]
         self.total_price = 0
         self.ordered = ''
         
