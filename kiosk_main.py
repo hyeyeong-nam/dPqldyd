@@ -1,8 +1,10 @@
 import sys
+import urllib.request
 from PyQt5.QtGui import QCloseEvent
 from PyQt5.QtWidgets import QApplication, QMessageBox, QWidget, QPushButton, QVBoxLayout, QTabWidget, QLabel, QTextEdit
 from Orders import Order
 from Voice_Recog import voice_recog
+from PyQt5.QtGui import QPixmap
 
 
 class kiosk_main(QWidget):
@@ -15,9 +17,6 @@ class kiosk_main(QWidget):
         self.order = Order()
         self.voice = voice_recog()
         
-        
-        
-
     def initUI(self):
         self.setWindowTitle("Jarvis Cafe")
 
@@ -99,6 +98,15 @@ class kiosk_main(QWidget):
         mike.clicked.connect(self.Mike_order)
         all_return.clicked.connect(self.Del)
         pay.clicked.connect(self.All_price)
+        
+        img_url = 'https://i.imgur.com/ZMUXmOu.png'
+        img_data = urllib.request.urlopen(img_url).read()
+        img_obj = QPixmap()
+        img_obj.loadFromData(img_data)
+        img_obj = img_obj.scaledToWidth(300)
+        lb_img = QLabel()
+        lb_img.setPixmap(img_obj)
+        vbox.addWidget(lb_img)
 
         self.setLayout(vbox)
         self.setLayout(layout)
