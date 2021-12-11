@@ -1,29 +1,10 @@
 import sys
 from PyQt5.QtGui import QCloseEvent
 from PyQt5.QtWidgets import QApplication, QMessageBox, QWidget, QPushButton, QVBoxLayout, QTabWidget, QLabel, QTextEdit
-import speech_recognition as sr
-from STT_test import kakao_stt, KAKAO_APP_KEY
-
 from Orders import Order
-def get_speech():
-        
-    # 마이크에서 음성을 추출하는 객체
-        recognizer = sr.Recognizer()
+from Voice_Recog import voice_recog
 
-    # 마이크 설정
-        microphone = sr.Microphone(sample_rate=16000)
 
-    # 마이크 소음 수치 반영
-        with microphone as source:
-            recognizer.adjust_for_ambient_noise(source)
-            
-
-    # 음성 수집
-        with microphone as source:
-            result = recognizer.listen(source)
-            audio = result.get_raw_data()
-
-        return audio
 class kiosk_main(QWidget):
 
     def __init__(self):
@@ -32,7 +13,7 @@ class kiosk_main(QWidget):
         self.initUI()
         
         self.order = Order()
-        
+        self.voice = voice_recog()
         
         
         
@@ -193,8 +174,7 @@ class kiosk_main(QWidget):
         self.showListAll()
 
     def Mike_order(self):
-        audio = get_speech()
-        text = kakao_stt(KAKAO_APP_KEY, "stream", audio)
+        text = self.voice.kakao_voice()
         print(text)
         if "아메리카노" in text:
             self.coffee_order1()
