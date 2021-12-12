@@ -29,9 +29,9 @@ class kiosk_main(QWidget):
         tabs = QTabWidget()
         tabs.addTab(tab1, "Coffee")
         coffee1 = QPushButton("아메리카노 : 2000원")
-        coffee2 = QPushButton("카페라떼 : 2700원")
+        coffee2 = QPushButton("카페 라떼 : 2700원")
         coffee3 = QPushButton("카푸치노: 2700원")
-        coffee4 = QPushButton("바닐라라떼 : 3500원")
+        coffee4 = QPushButton("바닐라 라떼 : 3500원")
         tab1.layout = QVBoxLayout()
         tab1.layout.addWidget(coffee1)
         tab1.layout.addWidget(coffee2)
@@ -41,9 +41,9 @@ class kiosk_main(QWidget):
 
         tabs.addTab(tab2, "Menu")
         Menu1 = QPushButton("레모네이드 : 3000원")
-        Menu2 = QPushButton("초코라떼 : 3500원")
+        Menu2 = QPushButton("초코 라떼 : 3500원")
         Menu3 = QPushButton("아이스티 : 2700원")
-        Menu4 = QPushButton("딸기스무디 : 4000원")
+        Menu4 = QPushButton("딸기 스무디 : 4000원")
         tab2.layout = QVBoxLayout()
         tab2.layout.addWidget(Menu1)
         tab2.layout.addWidget(Menu2)
@@ -52,8 +52,8 @@ class kiosk_main(QWidget):
         tab2.setLayout(tab2.layout)
 
         tabs.addTab(tab3, "Side")
-        side1 = QPushButton("초코케이크 : 3000원")
-        side2 = QPushButton("딸기케이크 : 3200원")
+        side1 = QPushButton("초코 케이크 : 3000원")
+        side2 = QPushButton("딸기 케이크 : 3200원")
         side3 = QPushButton("티라미수 : 3400원")
         side4 = QPushButton("샌드위치 : 4200원")
         tab3.layout = QVBoxLayout()
@@ -113,32 +113,15 @@ class kiosk_main(QWidget):
         self.setGeometry(300, 300, 300, 200)
         self.show()
         
-    def coffee_order1(self):
-        
-        
-        
-        # if "아메리카노" not in menu:
-            # self.order_list.append({"Menu":"아메리카노", "Amount":1})
-        #     self.total_price += self.coffee_price[0]
-         
-        self.order.add_order("아메리카노")  
-        #     for p in self.order_list:
-        #         if p["Menu"] == "아메리카노":
-        #             if p['Amount'] >= 1:
-        #                 order1_amount = p["Amount"] + 1
-        #                 p['Amount'] = (order1_amount)
-        #                 print(self.order_list)
-        #                 self.total_price += self.coffee_price[0]
-                        
+    def coffee_order1(self):      
+        self.order.add_order("아메리카노")                
         self.showListAll()
         
             
     def coffee_order2(self):
-        self.order.add_order("카페라떼")  
+        self.order.add_order("카페 라떼")  
         self.showListAll()
-                        
-                
-        self.showListAll()
+                    
         
     def coffee_order3(self):
         self.order.add_order("카푸치노")  
@@ -146,7 +129,7 @@ class kiosk_main(QWidget):
         
         
     def coffee_order4(self):
-        self.order.add_order("바닐라라떼")  
+        self.order.add_order("바닐라 라떼")  
         self.showListAll()
 
     def Menu_order1(self):
@@ -154,7 +137,7 @@ class kiosk_main(QWidget):
         self.showListAll()
         
     def Menu_order2(self):
-        self.order.add_order("초코라떼")  
+        self.order.add_order("초코 라떼")  
         self.showListAll()
         
     def Menu_order3(self):
@@ -162,15 +145,15 @@ class kiosk_main(QWidget):
         self.showListAll()
         
     def Menu_order4(self):
-        self.order.add_order("딸기스무디")  
+        self.order.add_order("딸기 스무디")  
         self.showListAll()
 
     def side_order1(self):
-        self.order.add_order("초코케이크")  
+        self.order.add_order("초코 케이크")  
         self.showListAll()
         
     def side_order2(self):
-        self.order.add_order("딸기케이크")  
+        self.order.add_order("딸기 케이크")  
         self.showListAll()
         
     def side_order3(self):
@@ -186,23 +169,23 @@ class kiosk_main(QWidget):
         print(text)
         if "아메리카노" in text:
             self.coffee_order1()
-        if "카페라떼" in text:
+        if "카페 라떼" in text:
             self.coffee_order2()
         if "카푸치노" in text:
             self.coffee_order3()
-        if "바닐라라떼" in text:
+        if "바닐라 라떼" in text:
             self.coffee_order4()
         if "레모네이드" in text:
             self.Menu_order1()
-        if "초코라떼" in text:
+        if "초코 라떼" in text:
             self.Menu_order2()
         if "아이스티" in text:
             self.Menu_order3()
-        if "딸기스무디" in text:
+        if "딸기 스무디" in text:
             self.Menu_order4()
-        if "초코케이크" in text:
+        if "초코 케이크" in text:
             self.side_order1()
-        if "딸기케이크" in text:
+        if "딸기 케이크" in text:
             self.side_order2()
         if "티라미수" in text:
             self.side_order3()
